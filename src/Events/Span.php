@@ -2,8 +2,8 @@
 
 namespace PhilKra\Events;
 
-use PhilKra\Helper\Encoding;
 use PhilKra\Helper\Timer;
+use PhilKra\Helper\Encoding;
 
 /**
  *
@@ -86,17 +86,47 @@ class Span extends TraceableEvent implements \JsonSerializable
     }
 
     /**
-    * Get the Event Name
-    *
-    * @return string
-    */
+     * Get the Event Name
+     *
+     * @return string
+     */
     public function getName() : string
     {
         return $this->name;
     }
 
     /**
-     * Set the Span's Type
+     * Get the Spans' Duration
+     *
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        return $this->duration;
+    }
+
+    /**
+     * Set the Spans' Duration
+     *
+     * @param int $duration
+     */
+    public function setDuration(int $duration)
+    {
+        return $this->duration = $duration;
+    }
+
+    /**
+     * Get the Spans' Action
+     *
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set the Span's Action
      *
      * @param string $action
      */
@@ -106,7 +136,17 @@ class Span extends TraceableEvent implements \JsonSerializable
     }
 
     /**
-     * Set the Spans' Action
+     * Get the Spans' Type
+     *
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the Spans' Type
      *
      * @param string $type
      */
@@ -125,6 +165,18 @@ class Span extends TraceableEvent implements \JsonSerializable
     public function setContext(array $context)
     {
         $this->context = $context;
+    }
+
+    /**
+     * Get the Spans' Stack Trace
+     *
+     * @link https://www.elastic.co/guide/en/apm/server/master/span-api.html
+     *
+     * @return array
+     */
+    public function getStackTrace(): array
+    {
+        return $this->stacktrace;
     }
 
     /**
@@ -154,12 +206,12 @@ class Span extends TraceableEvent implements \JsonSerializable
                 'transaction_id' => $this->getParentId(),
                 'trace_id'       => $this->getTraceId(),
                 'parent_id'      => $this->getParentId(),
-                'type'           => Encoding::keywordField($this->type),
-                'action'         => Encoding::keywordField($this->action),
-                'context'        => $this->context,
-                'duration'       => $this->duration,
+                'type'           => Encoding::keywordField($this->getType()),
+                'action'         => Encoding::keywordField($this->getAction()),
+                'context'        => $this->getContext(),
+                'duration'       => $this->getDuration(),
                 'name'           => Encoding::keywordField($this->getName()),
-                'stacktrace'     => $this->stacktrace,
+                'stacktrace'     => $this->getStacktrace(),
                 'sync'           => false,
                 'timestamp'      => $this->getTimestamp(),
             ]

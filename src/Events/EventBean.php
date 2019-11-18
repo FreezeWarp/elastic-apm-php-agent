@@ -173,6 +173,16 @@ class EventBean
     }
 
     /**
+     * Set the Event's Timestamp
+     *
+     * @return int
+     */
+    public function setTimestamp(int $timestamp)
+    {
+        return $this->timestamp = $timestamp;
+    }
+
+    /**
      * Set the Parent Id and Trace Id based on the Parent Event
      *
      * @link https://www.elastic.co/guide/en/apm/server/current/transaction-api.html
