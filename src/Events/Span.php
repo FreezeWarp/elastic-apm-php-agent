@@ -120,14 +120,14 @@ class Span extends TraceableEvent implements \JsonSerializable
      *
      * @return string
      */
-    public function getAction(): string
+    public function getAction(): ?string
     {
         return $this->action;
     }
 
     /**
      * Set the Span's Action
-     *
+     *  
      * @param string $action
      */
     public function setAction(string $action)
